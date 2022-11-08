@@ -43,16 +43,26 @@ Module Tree4.
     | Leaf (value: V).
 End Tree4.
 
-(* TODO distinguish the self from the whole type. *)
-(* TODO how to have a bimeasure that implements Measure? *)
-(* TODO have a unidirectional measure and a bimeasure that has two unidirectional measures? *)
-(* TODO flip inverts the two sides? *)
-(* TODO do the same for groups. *)
-Class Measure (A: Type) := {
-  (* TODO how to give parameters a name and a type?*)
-  add_self: A -> A -> A;
-  add_whole: A -> A -> A;
-}.
+Module Measuremodule.
+  Inductive Nullable (T : Type) : Type :=
+    | Some(t: T)
+    | None.
+    
+  (* TODO distinguish the self from the whole type? *)
+  (* TODO how to have a bimeasure that implements Measure? *)
+  (* TODO flip inverts the two sides? *)
+  (* TODO do the same for groups. *)
+  Class Measure (A: Type) := {
+    (* TODO how to give parameters a name and a type?*)
+    self: Nullable A -> Nullable A -> A;
+    whole: Nullable A -> Nullable A -> A;
+  }.
+  
+  Class BiMeasure (A: Type) := {
+    forward: Measure A;
+    backward: Measure A;
+  }.
+End MeasureModule.
 
 (* From: https://gist.github.com/puffnfresh/11258181 *)
 Class Monoid (A : Type) :=
